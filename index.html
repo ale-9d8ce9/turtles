@@ -6,21 +6,34 @@
     <title>turtles</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div id="setup">
-        <div class="title">Names</div>
+<body light-mode="false">
+    <div id="wallpaper"></div>
+    <div id="setup" class="popup">
+        <div class="title">Nomi</div>
         <div id="setup-names">
             <input type="text" class="name-input">
         </div>
-    </div>
-    <div id="race">
-        <div id="players-container"></div>
-    </div>
-    <div id="results">
-        <div class="title">Results</div>
-        <div id="results-container">
+        <div class="opposite" style="margin-top: 1.2rem;">
+            <div class="button" onclick="loadRace(true)">apri salvati</div>
+            <div>
+                <div class="button" onclick="createRace(false)">non salvare</div>
+                <div class="button" onclick="createRace(true)">salva</div>
+            </div>
         </div>
     </div>
+    <div id="race" show="false">
+        <div id="players-container"></div>
+    </div>
+    <div id="results" class="popup" show="false">
+        <div class="title">Results</div>
+        <div id="results-container" invert="false"></div>
+        <div class="button" onclick="document.getElementById('results').setAttribute('show', false);loadRace()">rifai</div>
+        <div class="button" onclick="document.getElementById('results-container').setAttribute('invert', !(document.getElementById('results-container').getAttribute('invert') == 'true'))">inverti</div>
+    </div>
+    <div id="dark-mode-button">
+        <input type="checkbox" onclick="document.querySelector('body').setAttribute('light-mode', this.checked)">
+    </div>
+    <div id="light-mode-overlay"></div>
     <script src="script.js"></script>
 </body>
 </html>

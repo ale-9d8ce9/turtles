@@ -3,19 +3,19 @@ let results = []
 
 let vars = {
     speedRandomness:3,
-    minSpeed:0,
+    minSpeed:5,
     minStepTime: 200,
     stepTimeRandomness: 300
 }
 
 class player{
-    constructor(name,i){
+    constructor(name, i, clr){
         this.name = name
         this.i = i
-        this.clr = Math.random()*360
         this.x = 0
         this.running = true
         this.position = 0
+        clr == 'n' ? this.clr = Math.random() * 360 : this.clr = clr
     }
 
     start(){
@@ -57,11 +57,12 @@ class player{
 
 
 function updateInput(elm) {
-
     if (elm.value.trim() == '' & document.getElementsByClassName('name-input').length > 1) {
-        elm.remove()
+        elm.style.animation = 'input-out .3s ease'
+        window.setTimeout((elm) => {
+            elm.remove()
+        }, 275, elm);
     }
-
     if (document.getElementsByClassName('name-input')[document.getElementsByClassName('name-input').length - 1].value.trim() != '') {
         const newName = document.createElement('input')
         newName.setAttribute('class', 'name-input')
@@ -71,20 +72,27 @@ function updateInput(elm) {
 }
 
 
-function createRace() {
+function createRace(save) {
     for (let i = 0; i < document.getElementsByClassName('name-input').length - 1; i++) {
-        players[i] = new player(document.getElementsByClassName('name-input')[i].value.trim(), i)
+        players[i] = new player(document.getElementsByClassName('name-input')[i].value.trim(), i, 'n')
     }
     if (players.length < 2) {
         console.log('Please enter at least 2 players')
     } else {
-        loadRace()
+        save ? localStorage.setItem('players', JSON.stringify(players)) : undefined
+        loadRace(false)
     }
 }
 
-function loadRace() {
-    document.getElementById('players-container').innerHTML = ''
+function loadRace(load) {
+    if (load) {
+        players = JSON.parse(localStorage.getItem('players'))
+        for (let i = 0; i < players.length; i++) {
+            players[i] = new player(players[i].name, i, players[i].clr)
+        }
+    }
 
+    document.getElementById('players-container').innerHTML = ''
     for (let i = 0; i < players.length; i++) {
         const newPlayerElement = document.createElement('div')
         newPlayerElement.setAttribute('class', 'player-bar')
@@ -98,8 +106,8 @@ function loadRace() {
         document.getElementById('player' + i).style.backgroundColor = 'hsl(' + players[i].clr + ', 100%, 50%)'
     }
 
-    document.getElementById('setup').style.display = 'none'
-    document.getElementById('race').style.display = 'block'
+    document.getElementById('setup').setAttribute('show', false)
+    document.getElementById('race').setAttribute('show', true)
 
     //start
     window.setTimeout(() => {
@@ -110,7 +118,6 @@ function loadRace() {
 }
 
 function endRace() {
-    console.log(players)
     for (let i = 0; i < players.length; i++) {
         results[players[i].position] = players[i].name
     }
@@ -119,14 +126,14 @@ function endRace() {
         document.getElementById('results-container').innerHTML += `
             <div class="results-line">
                 <div class="results-place">${i + 1}</div>
-                <div class="results-names" style="transition-delay:${i * 0.2}s">
-                    <div class="results-name1" style="transition-delay:${i * 0.2}s">${results[i]}</div>
-                    <div class="results-name2" style="transition-delay:${i * 0.2}s">${results[(results.length - 1) - i]}</div>
+                <div class="results-names" style="transition-delay:${i * 0.1}s">
+                    <div class="results-name1" style="transition-delay:${i * 0.1}s">${results[i]}</div>
+                    <div class="results-name2" style="transition-delay:${i * 0.1}s">${results[(results.length - 1) - i]}</div>
                 </div>
             </div>
         `
     }
-    document.getElementById('results').style.display = 'block'
+    document.getElementById('results').setAttribute('show', true)
 }
 
 
@@ -137,6 +144,3 @@ for (let i = 0; i < document.getElementsByClassName('name-input').length; i++) {
     const elm = document.getElementsByClassName('name-input')[i]
     elm.setAttribute('oninput','updateInput(this)')
 }
-
-document.getElementById('race').style.display = 'none'
-document.getElementById('results').style.display = 'none'
