@@ -28,15 +28,17 @@ class player{
     step(){
         this.x += vars.minSpeed
         this.x += vars.speedRandomness * Math.random()
+        this.timeNextStep = vars.minStepTime + (vars.stepTimeRandomness * Math.random())
 
         if (this.x >= 100) {
             this.end()
         } else {
             window.setTimeout((i) => {
                 players[i].step()
-            }, (vars.minStepTime + (vars.stepTimeRandomness * Math.random())), this.i);
+            }, this.timeNextStep, this.i);
         }
 
+        document.getElementById('player' + this.i).style.transition = (this.timeNextStep / 1000) + 's'
         document.getElementById('player' + this.i).style.left = this.x + '%'
     }
 
@@ -108,8 +110,9 @@ function loadRace(load) {
 
     document.getElementById('setup').setAttribute('show', false)
     document.getElementById('race').setAttribute('show', true)
+}
 
-    //start
+function startRace() {
     window.setTimeout(() => {
         for (let i = 0; i < players.length; i++) {
             players[i].start()
@@ -117,9 +120,14 @@ function loadRace(load) {
     }, 1000)
 }
 
-function endRace() {
-    for (let i = 0; i < players.length; i++) {
-        results[players[i].position] = players[i].name
+function endRace(overrideResults) {
+    if (overrideResults) {
+        results = JSON.parse(localStorage.getItem('results'))
+    } else {
+        results = []
+        for (let i = 0; i < players.length; i++) {
+            results[players[i].position] = players[i].name
+        }
     }
     document.getElementById('results-container').innerHTML = ''
     for (let i = 0; i < results.length; i++) {

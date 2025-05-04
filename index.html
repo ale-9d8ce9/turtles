@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>turtles</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+    </style>
 </head>
 <body light-mode="false">
     <div id="wallpaper"></div>
@@ -14,23 +17,50 @@
             <input type="text" class="name-input">
         </div>
         <div class="opposite" style="margin-top: 1.2rem;">
-            <div class="button" onclick="loadRace(true)">apri salvati</div>
             <div>
-                <div class="button" onclick="createRace(false)">non salvare</div>
-                <div class="button" onclick="createRace(true)">salva</div>
+                <div class="button" onclick="loadRace(true);endRace(true)">
+                    apri risultati salvati
+                </div>
+                <div class="button" onclick="loadRace(true);startRace()">
+                    apri nomi salvati
+                </div>
+            </div>
+            <div>
+                <div class="button" onclick="createRace(false);startRace()">
+                    non salvare
+                </div>
+                <div class="button" onclick="createRace(true);startRace()">
+                    salva
+                </div>
             </div>
         </div>
     </div>
-    <div id="race" show="false">
+    <div id="race" show="false" class="popup">
         <div id="players-container"></div>
     </div>
     <div id="results" class="popup" show="false">
-        <div class="title">Results</div>
+        <div class="title">
+            Risultati
+        </div>
         <div id="results-container" invert="false"></div>
-        <div class="button" onclick="document.getElementById('results').setAttribute('show', false);loadRace()">rifai</div>
-        <div class="button" onclick="document.getElementById('results-container').setAttribute('invert', !(document.getElementById('results-container').getAttribute('invert') == 'true'))">inverti</div>
+        <div class="opposite">
+            <div class="button" onclick="document.getElementById('results-container').setAttribute('invert', !(document.getElementById('results-container').getAttribute('invert') == 'true'))">
+                inverti
+            </div>
+            <div>
+                <div class="button" onclick="document.getElementById('results').setAttribute('show', false);loadRace();startRace()">
+                    rifai
+                </div>
+                <div class="button" onclick="localStorage.setItem('results',JSON.stringify(results))">
+                    salva
+                </div>
+            </div>
+        </div>
+        <div class="button x" onclick="document.getElementById('results').setAttribute('show',false)">x</div>
     </div>
     <div id="dark-mode-button">
+        <img src="dark-mode-icon.svg">
+        <img src="light-mode-icon.svg">
         <input type="checkbox" onclick="document.querySelector('body').setAttribute('light-mode', this.checked)">
     </div>
     <div id="light-mode-overlay"></div>
