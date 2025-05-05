@@ -18,18 +18,18 @@
         </div>
         <div class="opposite" style="margin-top: 1.2rem;">
             <div>
-                <div class="button" onclick="loadRace(true);endRace(true)">
+                <div class="button" onclick="loadRace(load=true);endRace(true)">
                     apri risultati salvati
                 </div>
-                <div class="button" onclick="loadRace(true);startRace()">
+                <div class="button" onclick="loadRace(load=true);startRace()">
                     apri nomi salvati
                 </div>
             </div>
             <div>
-                <div class="button" onclick="createRace(false);startRace()">
+                <div class="button" onclick="createRace(save=false);startRace()">
                     non salvare
                 </div>
-                <div class="button" onclick="createRace(true);startRace()">
+                <div class="button" onclick="createRace(save=true);startRace()">
                     salva
                 </div>
             </div>
@@ -37,6 +37,12 @@
     </div>
     <div id="race" show="false" class="popup">
         <div id="players-container"></div>
+        <div class="opposite">
+            <div>
+                <input type="range" id="min-speed" min="0" max="8" value="0" step="0.1" onchange="vars.minSpeed=this.value;document.getElementById('min-speed-value').innerText = this.value">
+                <div id="min-speed-value">0</div>
+            </div>
+        </div>
     </div>
     <div id="results" class="popup" show="false">
         <div class="title">

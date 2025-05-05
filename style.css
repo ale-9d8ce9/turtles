@@ -151,7 +151,7 @@ input:first-child{
     cursor: pointer;
 }
 .button:active{
-    scale: 0.95;
+    scale: 0.9;
 }
 
 #dark-mode-button{
@@ -232,13 +232,12 @@ body[light-mode='true'] #light-mode-overlay{
 .player-bar:first-child{
     border-top: none;
 }
-
-
 .player{
     position: absolute;
-    padding: .5rem;
-    transition: all linear 0.1s;
     translate: -50% 0;
+}
+.player img{
+    width: 2rem;
 }
 
 .x{

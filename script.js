@@ -5,7 +5,8 @@ let vars = {
     speedRandomness:3,
     minSpeed:5,
     minStepTime: 200,
-    stepTimeRandomness: 300
+    stepTimeRandomness: 300,
+    currentCostume: 'turtle'
 }
 
 class player{
@@ -15,14 +16,18 @@ class player{
         this.x = 0
         this.running = true
         this.position = 0
-        clr == 'n' ? this.clr = Math.random() * 360 : this.clr = clr
+        clr == 'n' ? this.clr = Math.round(Math.random() * 360) : this.clr = clr
     }
 
     start(){
         this.x = 0
         this.running = true
         this.position = 0
-        this.step()
+        document.getElementById('player' + this.i).style.transition = (vars.minStepTime / 1000) + 's linear'
+        document.getElementById('player' + this.i).style.left = '0%'
+        window.setTimeout(() => {
+            this.step()
+        }, vars.minStepTime)
     }
     
     step(){
@@ -38,7 +43,7 @@ class player{
             }, this.timeNextStep, this.i);
         }
 
-        document.getElementById('player' + this.i).style.transition = (this.timeNextStep / 1000) + 's'
+        document.getElementById('player' + this.i).style.transition = (this.timeNextStep / 1000) + 's linear'
         document.getElementById('player' + this.i).style.left = this.x + '%'
     }
 
@@ -102,10 +107,11 @@ function loadRace(load) {
 
         newPlayerElement.innerHTML = `
             <div class="player-name">${players[i].name}</div>
-            <div id='player${i}' class='player'></div>
+            <div id='player${i}' class='player'>
+                <img src="costumes/${vars.currentCostume}.svg" style="filter: hue-rotate(${players[i].clr}deg)">
+            </div>
         `
         document.getElementById('players-container').appendChild(newPlayerElement)
-        document.getElementById('player' + i).style.backgroundColor = 'hsl(' + players[i].clr + ', 100%, 50%)'
     }
 
     document.getElementById('setup').setAttribute('show', false)
