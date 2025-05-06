@@ -2,8 +2,8 @@ let players = []
 let results = []
 
 let vars = {
-    speedRandomness:3,
-    minSpeed:5,
+    speedRandomness: 4,
+    minSpeed: 2,
     minStepTime: 200,
     stepTimeRandomness: 300,
     currentCostume: 'turtle'
