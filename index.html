@@ -17,19 +17,14 @@
             <input type="text" class="name-input">
         </div>
         <div class="opposite" style="margin-top: 1.2rem;">
-            <div>
-                <div class="button" onclick="loadRace(load=true);endRace(true)">
-                    apri risultati salvati
-                </div>
-                <div class="button" onclick="loadRace(load=true);startRace()">
-                    apri nomi salvati
-                </div>
+            <div class="button" onclick="load()">
+                apri salvati
             </div>
             <div>
-                <div class="button" onclick="createRace(save=false);startRace()">
+                <div class="button" onclick="createRace();startRace()">
                     non salvare
                 </div>
-                <div class="button" onclick="createRace(save=true);startRace()">
+                <div class="button" onclick="createRace();save();startRace()">
                     salva
                 </div>
             </div>
@@ -42,6 +37,7 @@
                 <input type="range" id="min-speed" min="0" max="8" value="0" step="0.1" onchange="vars.minSpeed=this.value;document.getElementById('min-speed-value').innerText = this.value">
                 <div id="min-speed-value">0</div>
             </div>
+            <div class="button" onclick="startRace()">start</div>
         </div>
     </div>
     <div id="results" class="popup" show="false">
@@ -57,7 +53,7 @@
                 <div class="button" onclick="document.getElementById('results').setAttribute('show', false);loadRace();startRace()">
                     rifai
                 </div>
-                <div class="button" onclick="localStorage.setItem('results',JSON.stringify(results))">
+                <div class="button" onclick="save()">
                     salva
                 </div>
             </div>

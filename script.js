@@ -79,26 +79,19 @@ function updateInput(elm) {
 }
 
 
-function createRace(save) {
+function createRace() {
     for (let i = 0; i < document.getElementsByClassName('name-input').length - 1; i++) {
         players[i] = new player(document.getElementsByClassName('name-input')[i].value.trim(), i, 'n')
     }
     if (players.length < 2) {
         console.log('Please enter at least 2 players')
     } else {
-        save ? localStorage.setItem('players', JSON.stringify(players)) : undefined
-        loadRace(false)
+        results = []
+        loadRace()
     }
 }
 
-function loadRace(load) {
-    if (load) {
-        players = JSON.parse(localStorage.getItem('players'))
-        for (let i = 0; i < players.length; i++) {
-            players[i] = new player(players[i].name, i, players[i].clr)
-        }
-    }
-
+function loadRace() {
     document.getElementById('players-container').innerHTML = ''
     for (let i = 0; i < players.length; i++) {
         const newPlayerElement = document.createElement('div')
@@ -126,15 +119,15 @@ function startRace() {
     }, 1000)
 }
 
-function endRace(overrideResults) {
-    if (overrideResults) {
-        results = JSON.parse(localStorage.getItem('results'))
-    } else {
-        results = []
-        for (let i = 0; i < players.length; i++) {
-            results[players[i].position] = players[i].name
-        }
+function endRace() {
+    results = []
+    for (let i = 0; i < players.length; i++) {
+        results[players[i].position] = players[i].name
     }
+    openResults()
+}
+
+function openResults() {
     document.getElementById('results-container').innerHTML = ''
     for (let i = 0; i < results.length; i++) {
         document.getElementById('results-container').innerHTML += `
@@ -150,6 +143,20 @@ function endRace(overrideResults) {
     document.getElementById('results').setAttribute('show', true)
 }
 
+function save() {
+    localStorage.setItem('players', JSON.stringify(players))
+    localStorage.setItem('results', JSON.stringify(results))
+}
+
+function load() {
+    players = JSON.parse(localStorage.getItem('players'))
+    for (let i = 0; i < players.length; i++) {
+        players[i] = new player(players[i].name, i, players[i].clr)
+    }
+    createRace()
+    results = JSON.parse(localStorage.getItem('results'))
+    results.length < 2 ? undefined : openResults()
+}
 
 
 // start script
