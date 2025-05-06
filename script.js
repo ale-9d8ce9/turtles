@@ -84,6 +84,7 @@ function createPlayers() {
     for (let i = 0; i < document.getElementsByClassName('name-input').length - 1; i++) {
         players[i] = new player(document.getElementsByClassName('name-input')[i].value.trim(), i, 'n')
     }
+    createRace()
 }
     
 function createRace() {

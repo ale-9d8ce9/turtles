@@ -21,10 +21,10 @@
                 apri salvati
             </div>
             <div>
-                <div class="button" onclick="createRace();startRace(1000)">
+                <div class="button" onclick="createPlayers();startRace(1000)">
                     non salvare
                 </div>
-                <div class="button" onclick="createRace();save();startRace(1000)">
+                <div class="button" onclick="createPlayers();save();startRace(1000)">
                     salva
                 </div>
             </div>
@@ -33,8 +33,11 @@
     <div id="race" show="false" class="popup">
         <div id="players-container"></div>
         <div class="opposite" style="margin-top: 1.2rem;">
-            <div class="button" onclick="document.getElementById('race').setAttribute('show',false);document.getElementById('setup').setAttribute('show',true)">indietro</div>
-            <div class="button" onclick="startRace(100)">inizia</div>
+            <div></div>
+            <div>
+                <div class="button" onclick="document.getElementById('race').setAttribute('show',false);document.getElementById('setup').setAttribute('show',true)">indietro</div>
+                <div class="button" onclick="startRace(100)">inizia</div>
+            </div>
         </div>
     </div>
     <div id="results" class="popup" show="false">
