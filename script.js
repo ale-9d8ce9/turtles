@@ -65,10 +65,10 @@ class player{
 
 function updateInput(elm) {
     if (elm.value.trim() == '' & document.getElementsByClassName('name-input').length > 1) {
-        elm.style.animation = 'input-out .3s ease'
+        elm.setAttribute('empty', true)
         window.setTimeout((elm) => {
-            elm.remove()
-        }, 275, elm);
+            elm.value.trim() == '' ? elm.remove() : elm.setAttribute('empty', false)
+        }, 400, elm);
     }
     if (document.getElementsByClassName('name-input')[document.getElementsByClassName('name-input').length - 1].value.trim() != '') {
         const newName = document.createElement('input')
@@ -79,12 +79,16 @@ function updateInput(elm) {
 }
 
 
-function createRace() {
+function createPlayers() {
+    players = []
     for (let i = 0; i < document.getElementsByClassName('name-input').length - 1; i++) {
         players[i] = new player(document.getElementsByClassName('name-input')[i].value.trim(), i, 'n')
     }
+}
+    
+function createRace() {
     if (players.length < 2) {
-        console.log('Please enter at least 2 players')
+        alert('inserire almeno 2 giocatori')
     } else {
         results = []
         loadRace()
@@ -111,12 +115,12 @@ function loadRace() {
     document.getElementById('race').setAttribute('show', true)
 }
 
-function startRace() {
+function startRace(delay) {
     window.setTimeout(() => {
         for (let i = 0; i < players.length; i++) {
             players[i].start()
         }
-    }, 1000)
+    }, delay)
 }
 
 function endRace() {
@@ -150,12 +154,16 @@ function save() {
 
 function load() {
     players = JSON.parse(localStorage.getItem('players'))
-    for (let i = 0; i < players.length; i++) {
-        players[i] = new player(players[i].name, i, players[i].clr)
+    if (players.length < 2) {
+        alert('nessun giocatore salvato')
+    } else {
+        for (let i = 0; i < players.length; i++) {
+            players[i] = new player(players[i].name, i, players[i].clr)
+        }
+        createRace()
+        results = JSON.parse(localStorage.getItem('results'))
+        results.length < 2 ? undefined : openResults()
     }
-    createRace()
-    results = JSON.parse(localStorage.getItem('results'))
-    results.length < 2 ? undefined : openResults()
 }
 
 

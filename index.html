@@ -13,18 +13,18 @@
     <div id="wallpaper"></div>
     <div id="setup" class="popup">
         <div class="title">Nomi</div>
-        <div id="setup-names">
+        <div id="setup-names" style="margin: 1.2rem 0">
             <input type="text" class="name-input">
         </div>
-        <div class="opposite" style="margin-top: 1.2rem;">
+        <div class="opposite">
             <div class="button" onclick="load()">
                 apri salvati
             </div>
             <div>
-                <div class="button" onclick="createRace();startRace()">
+                <div class="button" onclick="createRace();startRace(1000)">
                     non salvare
                 </div>
-                <div class="button" onclick="createRace();save();startRace()">
+                <div class="button" onclick="createRace();save();startRace(1000)">
                     salva
                 </div>
             </div>
@@ -32,12 +32,9 @@
     </div>
     <div id="race" show="false" class="popup">
         <div id="players-container"></div>
-        <div class="opposite">
-            <div>
-                <input type="range" id="min-speed" min="0" max="8" value="0" step="0.1" onchange="vars.minSpeed=this.value;document.getElementById('min-speed-value').innerText = this.value">
-                <div id="min-speed-value">0</div>
-            </div>
-            <div class="button" onclick="startRace()">start</div>
+        <div class="opposite" style="margin-top: 1.2rem;">
+            <div class="button" onclick="document.getElementById('race').setAttribute('show',false);document.getElementById('setup').setAttribute('show',true)">indietro</div>
+            <div class="button" onclick="startRace(100)">inizia</div>
         </div>
     </div>
     <div id="results" class="popup" show="false">
@@ -50,12 +47,8 @@
                 inverti
             </div>
             <div>
-                <div class="button" onclick="document.getElementById('results').setAttribute('show', false);loadRace();startRace()">
-                    rifai
-                </div>
-                <div class="button" onclick="save()">
-                    salva
-                </div>
+                <div class="button" onclick="document.getElementById('results').setAttribute('show', false);loadRace();startRace(1000)">rifai</div>
+                <div class="button" onclick="save()">salva</div>
             </div>
         </div>
         <div class="button x" onclick="document.getElementById('results').setAttribute('show',false)">x</div>
